@@ -1,0 +1,23 @@
+---
+# tasks file for http
+- name: install packages
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+
+- name: change default vhost config
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-available/default
+  notify:
+    - restart nginx
+
+- name: copy index.php
+  copy:
+    src: index.php
+    dest: /var/www/html/index.php
+    owner: www-data
+    group: www-data
+    mode: '0644'
+

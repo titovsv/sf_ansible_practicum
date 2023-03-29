@@ -1,0 +1,8 @@
+[test]
+localhost
+
+[nginx_srv]
+nginx ansible_host=192.168.10.15
+
+[php_srv]
+php-server ansible_host=192.168.10.16

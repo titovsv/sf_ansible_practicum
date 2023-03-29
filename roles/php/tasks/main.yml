@@ -1,0 +1,30 @@
+---
+# tasks file for php
+- name: install package php-fpm
+  apt:
+    name: php7.4-fpm
+    state: present
+    update_cache: yes
+
+- name: change address on which to accept FastCGI requests
+  lineinfile:
+    path: /etc/php/7.4/fpm/pool.d/www.conf
+    search_string: 'listen = /run/php/php7.4-fpm.sock'
+    line: 'listen = {{ ansible_default_ipv4.address }}:9000'
+  notify:
+    - restart php-fpm
+
+- name: crate www folder
+  file:
+    name: /var/www/html
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: copy script file to php-server
+  copy:
+    src: index.php
+    dest: /var/www/html/index.php
+    owner: www-data
+    group: www-data
+    mode: '0644'

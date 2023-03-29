@@ -1,0 +1,6 @@
+---
+- hosts: php_srv
+  gather_facts: yes
+  become: yes
+  roles:
+    - php
